@@ -3,7 +3,7 @@ import * as https from 'https';
 
 const configHeadersDolyami = {
   headers: {
-    Authorization: 'Basic dGVzdC1jb29sY2hlc3M6R25VdUp3dEc1RzEzMjNlMzQ2Mw==',
+    Authorization: 'Basic Y29vbGNoZXNzMTpYUE5VVlYzSHI2',
   },
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
