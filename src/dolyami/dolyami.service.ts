@@ -1,4 +1,3 @@
-import './test.json';
 import configHeadersDolyami from 'src/utils/configHeadersDolyami';
 import getInfoFromJsonWebhook from 'src/utils/getInfoFromJsonWebhook';
 import { MailerService } from '@nestjs-modules/mailer';
