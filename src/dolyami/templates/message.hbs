@@ -1,0 +1,28 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class='body'>
+      <div class='message'>
+        <p class='content'>Пользователь
+          <strong>{{clientFullName}}</strong>
+          внес
+          {{stringPaidPaymentNumber}}
+          платеж в размере
+          {{amount}}р.</p>
+        <p class='content'>Дата платежа {{paymentDate}}</p>
+
+        <p class='content'>Номер телефона пользователя: {{phone}}</p>
+        <p class='content'>Почта пользователя: {{email}}</p>
+
+        <p class='content'>Оставшаяся сумма услуги
+          <strong> {{residualPrice}}р</strong>.</p>
+        <p class='content'>Полная сумма услуги
+          <strong> {{totalPrice}}р</strong>.</p>
+      </div>
+    </div>
+  </body>
+</html>

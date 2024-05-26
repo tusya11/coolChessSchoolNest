@@ -1,12 +1,18 @@
+import './test.json';
+import configHeadersDolyami from 'src/utils/configHeadersDolyami';
+import getInfoFromJsonWebhook from 'src/utils/getInfoFromJsonWebhook';
+import { MailerService } from '@nestjs-modules/mailer';
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable, Redirect } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { catchError, firstValueFrom, map } from 'rxjs';
-import configHeadersDolyami from 'src/utils/configHeadersDolyami';
 
 @Injectable()
 export class DolyamiService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly mailerService: MailerService,
+  ) {}
 
   async createOrder(data) {
     const uuid = randomUUID();
@@ -67,5 +73,52 @@ export class DolyamiService {
     );
 
     return responseData;
+  }
+
+  async sendEmail(data) {
+    const [
+      clientFullName,
+      numberOfPayments,
+      totalPrice,
+      residualPrice,
+      paidPaymentNumber,
+      scheduledPaymentNumber,
+      amount,
+      stringPaidPaymentNumber,
+      stringScheduledPaymentNumber,
+      phone,
+      email,
+      paymentDate,
+    ] = getInfoFromJsonWebhook(data);
+
+    this.mailerService
+      .sendMail({
+        to: 'micke.brown@yandex.ru',
+        from: 'coolchess_online@mail.ru',
+        subject: `Информация о платеже сервиса "Долями" - ${clientFullName}`,
+        template: 'message',
+        context: {
+          clientFullName,
+          numberOfPayments,
+          totalPrice,
+          residualPrice,
+          paidPaymentNumber,
+          scheduledPaymentNumber,
+          amount,
+          stringPaidPaymentNumber: stringPaidPaymentNumber
+            .toString()
+            .toLowerCase(),
+          stringScheduledPaymentNumber: stringScheduledPaymentNumber
+            .toString()
+            .toLowerCase(),
+          phone,
+          email,
+          paymentDate,
+        },
+      })
+      .then((res) => res)
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
